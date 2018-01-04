@@ -1,4 +1,4 @@
-package com.niit.model;
+/*package com.niit.model;
 import java.util.Date;
 import java.util.List;
 
@@ -24,13 +24,12 @@ public class BlogPost {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 private int id;
-@Column(unique=true,nullable=false)
 private String blogTitle;
 @Lob
 private String blogContent;
-private Date postedOn;
 @ManyToOne
-private User1 postedBy;
+private UserDetails postedBy;
+private Date postedOn;
 private boolean approved;
 private int likes;
 @OneToMany(mappedBy="blogPost",fetch=FetchType.EAGER)
@@ -59,10 +58,10 @@ public Date getPostedOn() {
 public void setPostedOn(Date postedOn) {
 	this.postedOn = postedOn;
 }
-public User1 getPostedBy() {
+public UserDetails getPostedBy() {
 	return postedBy;
 }
-public void setPostedBy(User1 postedBy) {
+public void setPostedBy(UserDetails postedBy) {
 	this.postedBy = postedBy;
 }
 public boolean isApproved() {
@@ -85,3 +84,4 @@ public void setBlogComments(List<BlogComment> blogComments) {
 }
 
 }
+*/

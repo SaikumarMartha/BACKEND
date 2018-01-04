@@ -1,9 +1,9 @@
-package com.niit.Dao;
+/*package com.niit.dao;
 import java.util.List;
 
 import com.niit.model.BlogComment;
 import com.niit.model.BlogPost;
-public interface BlogPostDao {
+public interface BlogPostDAO {
 	void saveBlogPost(BlogPost blogPost);
 	//return list of blogs waiting for approval(0) / list of blogs approved(1)
 	//getBlogs(0) -> list of blogs waiting for approval
@@ -13,3 +13,4 @@ public interface BlogPostDao {
 	void updateBlogPost(BlogPost blogPost,String rejectionReason);
 	void addComment(BlogComment blogComment);
 }
+*/

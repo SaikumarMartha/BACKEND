@@ -1,4 +1,4 @@
-package com.niit.model;
+/*package com.niit.model;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -22,7 +22,7 @@ private int id;
 	@JsonIgnore
 private BlogPost blogPost;
 	@ManyToOne
-private User1 commentedBy;
+private UserDetails commentedBy;
 private Date commentedOn;
 @Column(nullable=false)
 private String commentText;
@@ -38,10 +38,10 @@ public BlogPost getBlogPost() {
 public void setBlogPost(BlogPost blogPost) {
 	this.blogPost = blogPost;
 }
-public User1 getCommentedBy() {
+public UserDetails getCommentedBy() {
 	return commentedBy;
 }
-public void setCommentedBy(User1 commentedBy) {
+public void setCommentedBy(UserDetails commentedBy) {
 	this.commentedBy = commentedBy;
 }
 public Date getCommentedOn() {
@@ -57,3 +57,4 @@ public void setCommentText(String commentText) {
 	this.commentText = commentText;
 }
 }
+*/

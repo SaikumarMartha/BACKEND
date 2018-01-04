@@ -1,11 +1,12 @@
-package com.niit.service;
+package com.niit.dao;
 
 import java.util.List;
 
 import com.niit.model.UserDetails;
 
-public interface UserService 
-{
+public interface UserDAO {
+	
+	
 	
 	public boolean saveOrUpdate(UserDetails users);
 	public UserDetails updateUser(UserDetails users);
@@ -16,4 +17,5 @@ public interface UserService
 	public UserDetails login(String username,String password);
 	public boolean isUsernameValid(String username);
 	public boolean isEmailValid(String email);
+	
 }

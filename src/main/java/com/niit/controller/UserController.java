@@ -1,5 +1,7 @@
 package com.niit.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.niit.model.User1;
+import com.niit.model.UserDetails;
 import com.niit.service.UserService;
 
 
@@ -19,26 +21,47 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
-	
-	@RequestMapping(value = "/registration", method = RequestMethod.POST)
-	public ResponseEntity<?> registerUser(@RequestBody User1 user1) {
-	
-	
 
-		boolean result = userService.saveOrUpdate(user1);
+	@RequestMapping(value = "/registration", method = RequestMethod.POST)
+	public ResponseEntity<?> registerUser(@RequestBody UserDetails user) {
+	
+		if(!userService.isUsernameValid(user.getUsername()))
+		{
+			Error error = new Error(user.getUsername()+"..username already exists,, please enter different username");
+			return new ResponseEntity<Error>(error, HttpStatus.NOT_ACCEPTABLE);
+		}
+		
+	 if (!userService.isEmailValid(user.getEmail()))
+	 {
+			Error error = new Error(user.getEmail()+"...Email address already exists,, please enter different email");
+			return new ResponseEntity<Error>(error, HttpStatus.NOT_ACCEPTABLE);
+	}
+
+		boolean result = userService.saveOrUpdate(user);
 		if (result) {
-			return new ResponseEntity<User1>(user1, HttpStatus.OK);
+			return new ResponseEntity<UserDetails>(user, HttpStatus.OK);
 		} else {
 			Error error = new Error("unable to register user details");
 			return new ResponseEntity<Error>(error, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	//************************Login***********************************//*
+	/************************Login***********************************/
+	@SuppressWarnings("unused")
 	@RequestMapping(value="/login",method=RequestMethod.POST)
-	public ResponseEntity<?> login(@RequestBody User1 user1,HttpSession session)
-	{ 
-	    System.out.println("Is Session New For" + user1.getUserName() + session.isNew());
-	    User1 validUser=userService.login(user1);
+	public ResponseEntity<?> login(@RequestBody UserDetails validUser,HttpSession session){
+	
+		
+		UserDetails u =userService.getUser(validUser.getUsername());
+		
+		System.out.println(u.getUsername());
+		
+		
+      validUser=userService.login(u.getUsername(),u.getPassword());
+      System.out.println((validUser));
+	  /* // System.out.println(users);
+	   System.out.println(validUser.getUsername());
+	    System.out.println("Password = "+users.getPassword());*/
+		
 	    if(validUser==null)
 
 	    {
@@ -47,18 +70,19 @@ public class UserController {
 		}	   
 	    else	
 	    {
-	        validUser.setIsonline(true);
-		    validUser=userService.updateUser(validUser);
-		    session.setAttribute("user", validUser);
-		    return new ResponseEntity<User1>(validUser,HttpStatus.OK);    
+	        validUser.setOnline(true);
+		    validUser=userService.updateUser(u);
+		    session.setAttribute("validUser", u);
+		    return new ResponseEntity<UserDetails>(u,HttpStatus.OK);    
 		}
+	   
 	}
-	//************************Logout ***********************************//*
+	/************************Logout ***********************************/
 	@RequestMapping(value="/logout",method=RequestMethod.GET)
 	public ResponseEntity<?> logout(HttpSession session)
 	{ 
 	  
-	    User1 validUser=(User1) session.getAttribute("user");
+	    UserDetails validUser=(UserDetails) session.getAttribute("validUser");
 	    if(validUser==null)
 
 	    {
@@ -67,13 +91,25 @@ public class UserController {
 		}	   
 	    else	
 	    {
-	        validUser.setIsonline(false);
+	        validUser.setOnline(false);
 	        userService.updateUser(validUser);
-		    session.removeAttribute("user");
+		    session.removeAttribute("validUser");
 		    session.invalidate();
-		    return new ResponseEntity<User1>(validUser,HttpStatus.OK);    
+		    return new ResponseEntity<UserDetails>(validUser,HttpStatus.OK);    
 		}
 	}
+/******************Listing the User Details****************************/
+	
+	
+	@RequestMapping(value="/users",method=RequestMethod.GET)
+	   public ResponseEntity<List<UserDetails>> listAllUsers() {
+        List<UserDetails> users = userService.UserList();
+        if(users.isEmpty()){
+            return new ResponseEntity<List<UserDetails>>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
+        }
+        return new ResponseEntity<List<UserDetails>>(users, HttpStatus.OK);
+    }
+  
 	
 	
 }

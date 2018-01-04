@@ -8,7 +8,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,39 +15,35 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.niit.Dao.BlogPostDao;
-import com.niit.Dao.BlogPostLikesDao;
-import com.niit.Dao.UserDao;
-import com.niit.model.BlogComment;
-import com.niit.model.BlogPost;
-import com.niit.model.BlogPostLikes;
-import com.niit.model.ErrorClazz;
-import com.niit.model.User1;
-
+import com.niit.dao.BlogPostDAO;
+import com.niit.dao.BlogPostLikesDAO;
+import com.niit.dao.UserDAO;
+import com.niit.model.*;
+import com.niit.model.Error;
 @RestController
 public class BlogPostController {
 	@Autowired
-	private BlogPostDao blogPostDao;
+	private BlogPostDAO blogPostDao;
 	@Autowired
-	private UserDao userDao;
+	private UserDAO usersDAO;
 	@Autowired
-	private BlogPostLikesDao blogPostLikesDao;
+	private BlogPostLikesDAO blogPostLikesDao;
 	@RequestMapping(value = "/saveblog", method = RequestMethod.POST)
 	public ResponseEntity<?> saveBlogPost(@RequestBody BlogPost blogPost, HttpSession session) {
 		String username = (String) session.getAttribute("username");
 		if (username == null) {
-			ErrorClazz error = new ErrorClazz(5, "Unauthorized access");
-			return new ResponseEntity<ErrorClazz>(error, HttpStatus.UNAUTHORIZED);// 401
+			Error error = new Error(5, "Unauthorized access");
+			return new ResponseEntity<Error>(error, HttpStatus.UNAUTHORIZED);// 401
 		}
-		User1 user = userDao.getUserByUsername(username);// select * from user
+		UserDetails usersDetails = usersDAO.getUserByUsername(username);// select * from user
 														// where username='adam'
 		blogPost.setPostedOn(new Date());
-		blogPost.setPostedBy(user);// FK column postedby_username ['adam']
+		blogPost.setPostedBy(usersDetails);// FK column postedby_username ['adam']
 		try {
 			blogPostDao.saveBlogPost(blogPost);
 		} catch (Exception e) {
-			ErrorClazz error = new ErrorClazz(6, "Unable to insert blog details " + e.getMessage());
-			return new ResponseEntity<ErrorClazz>(error, HttpStatus.INTERNAL_SERVER_ERROR);// 500
+			Error error = new Error(6, "Unable to insert blog details " + e.getMessage());
+			return new ResponseEntity<Error>(error, HttpStatus.INTERNAL_SERVER_ERROR);// 500
 		}
 		return new ResponseEntity<BlogPost>(blogPost, HttpStatus.OK);
 	}
@@ -57,14 +52,14 @@ public class BlogPostController {
 	public ResponseEntity<?> getBlogs(@PathVariable int approved,HttpSession session){
 		String username=(String)session.getAttribute("username");
 		if(username==null){
-			ErrorClazz error=new ErrorClazz(5,"Unauthorized access");
-			return new ResponseEntity<ErrorClazz>(error,HttpStatus.UNAUTHORIZED);//401
+			Error error=new Error(5,"Unauthorized access");
+			return new ResponseEntity<Error>(error,HttpStatus.UNAUTHORIZED);//401
 		}
 		if(approved==0){//list of blogs waiting for approval
-			User1 user=userDao.getUserByUsername(username);
+			UserDetails user=usersDAO.getUserByUsername(username);
 		if(!user.getRole().equals("ADMIN")){
-			ErrorClazz error=new ErrorClazz(7,"Access Denied");
-			return new ResponseEntity<ErrorClazz>(error,HttpStatus.UNAUTHORIZED);
+			Error error=new Error(7,"Access Denied");
+			return new ResponseEntity<Error>(error,HttpStatus.UNAUTHORIZED);
 		}
 		}
 		List<BlogPost> blogPosts=blogPostDao.getBlogs(approved);
@@ -86,8 +81,8 @@ public class BlogPostController {
 			          @RequestParam(required=false) String rejectionReason,HttpSession session){
 		String username=(String)session.getAttribute("username");
 		if(username==null){
-			ErrorClazz error=new ErrorClazz(5,"Unauthorized access");
-			return new ResponseEntity<ErrorClazz>(error,HttpStatus.UNAUTHORIZED);//401
+			Error error=new Error(5,"Unauthorized access");
+			return new ResponseEntity<Error>(error,HttpStatus.UNAUTHORIZED);//401
 		}
 		try{
 			//if admin selects Approve, blogPost.approved=1
@@ -95,8 +90,8 @@ public class BlogPostController {
 			System.out.println(blogPost);
 		blogPostDao.updateBlogPost(blogPost,rejectionReason);
 		}catch(Exception e){
-			ErrorClazz error=new ErrorClazz(7,"Unable to update blogpost approval status "+e.getMessage());
-			return new ResponseEntity<ErrorClazz>(error,HttpStatus.INTERNAL_SERVER_ERROR);
+			Error error=new Error(7,"Unable to update blogpost approval status "+e.getMessage());
+			return new ResponseEntity<Error>(error,HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
@@ -105,26 +100,26 @@ public class BlogPostController {
 	public ResponseEntity<?> userLikes(@PathVariable int id,HttpSession session){
 		String username=(String)session.getAttribute("username");
 		if(username==null){
-			ErrorClazz error=new ErrorClazz(5,"Unauthorized access");
-			return new ResponseEntity<ErrorClazz>(error,HttpStatus.UNAUTHORIZED);//401
+			Error error=new Error(5,"Unauthorized access");
+			return new ResponseEntity<Error>(error,HttpStatus.UNAUTHORIZED);//401
 		}
-		User1 user=userDao.getUserByUsername(username);
+		UserDetails usersDetails=usersDAO.getUserByUsername(username);
 		BlogPost blogPost=blogPostDao.getBlogById(id);
 		//blogPostLikes = null / 1 object
 		// if user has not yet liked the blogPost, blogPostLikes = null
 		//if user has liked the blogPost already, blogPostLikes= 1 object
-		BlogPostLikes blogPostLikes=blogPostLikesDao.userLikes(blogPost, user);
+		BlogPostLikes blogPostLikes=blogPostLikesDao.userLikes(blogPost, usersDetails);
 		return new ResponseEntity<BlogPostLikes>(blogPostLikes,HttpStatus.OK);
 	}
 	@RequestMapping(value="/updatelikes",method=RequestMethod.PUT)
 	public ResponseEntity<?> updateLikes(@RequestBody BlogPost blogPost,HttpSession session){
 		String username=(String)session.getAttribute("username");
 		if(username==null){
-			ErrorClazz error=new ErrorClazz(5,"Unauthorized access");
-			return new ResponseEntity<ErrorClazz>(error,HttpStatus.UNAUTHORIZED);//401
+			Error error=new Error(5,"Unauthorized access");
+			return new ResponseEntity<Error>(error,HttpStatus.UNAUTHORIZED);//401
 		}
-		User1 user=userDao.getUserByUsername(username);
-		BlogPost updatedBlogPost=blogPostLikesDao.updateLikes(blogPost, user);
+		UserDetails usersDetails=usersDAO.getUserByUsername(username);
+		BlogPost updatedBlogPost=blogPostLikesDao.updateLikes(blogPost, usersDetails);
 		return new ResponseEntity<BlogPost>(updatedBlogPost,HttpStatus.OK);
 	}
 	@RequestMapping(value="/addcomment",method=RequestMethod.POST)
@@ -133,10 +128,10 @@ public class BlogPostController {
 			,HttpSession session){
 		String username=(String)session.getAttribute("username");
 		if(username==null){
-			ErrorClazz error=new ErrorClazz(5,"Unauthorized access");
-			return new ResponseEntity<ErrorClazz>(error,HttpStatus.UNAUTHORIZED);//401
+			Error error=new Error(5,"Unauthorized access");
+			return new ResponseEntity<Error>(error,HttpStatus.UNAUTHORIZED);//401
 		}
-		User1 commentedBy=userDao.getUserByUsername(username);
+		UserDetails commentedBy=usersDAO.getUserByUsername(username);
 		//Construct blogcomment object
 		BlogComment blogComment=new BlogComment();
 		
@@ -150,12 +145,13 @@ public class BlogPostController {
 		try{
 		blogPostDao.addComment(blogComment);
 		}catch(Exception e){
-			ErrorClazz error=new ErrorClazz(7,"Unable to post comments " + e.getMessage());
-			return new ResponseEntity<ErrorClazz>(error,HttpStatus.INTERNAL_SERVER_ERROR);//500
+			Error error=new Error(7,"Unable to post comments " + e.getMessage());
+			return new ResponseEntity<Error>(error,HttpStatus.INTERNAL_SERVER_ERROR);//500
 		}
 		 blogPost=blogPostDao.getBlogById(id);
 		return new ResponseEntity<BlogPost>(blogPost,HttpStatus.OK);
 		
 	}
+
 }
 */

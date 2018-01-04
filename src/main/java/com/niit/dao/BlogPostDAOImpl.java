@@ -1,20 +1,19 @@
-/*package com.niit.Dao;
-import java.util.List;
+/*package com.niit.dao;
 
-import javax.transaction.Transactional;
+import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 import com.niit.model.BlogComment;
 import com.niit.model.BlogPost;
 import com.niit.model.Notification;
+
+
 @Repository
-@Transactional
-public class BlogPostDaoImpl implements BlogPostDao{
+public class BlogPostDAOImpl implements BlogPostDAO{
 
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -72,5 +71,4 @@ public class BlogPostDaoImpl implements BlogPostDao{
 		
 	}
 
-}
-*/
+}*/

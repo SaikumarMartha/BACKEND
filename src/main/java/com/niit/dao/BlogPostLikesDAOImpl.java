@@ -1,4 +1,4 @@
-package com.niit.Dao;
+/*package com.niit.dao;
 import javax.transaction.Transactional;
 
 import org.hibernate.Query;
@@ -9,21 +9,21 @@ import org.springframework.stereotype.Repository;
 
 import com.niit.model.BlogPost;
 import com.niit.model.BlogPostLikes;
-import com.niit.model.User1;
+import com.niit.model.UserDetails;
 @Repository
 @Transactional
-public class BlogPostLikesDaoImpl implements BlogPostLikesDao{
+public class BlogPostLikesDAOImpl implements BlogPostLikesDAO{
 
 	@Autowired
 	private SessionFactory sessionFactory;
-		public BlogPostLikes userLikes(BlogPost blogPost, User1 user) {
+		public BlogPostLikes userLikes(BlogPost blogPost, UserDetails user) {
 			Session session=sessionFactory.getCurrentSession();
 			//select * from blogpostlikes_s180133 where blogpost_id=? and user_username=?
 			Query query=session.createQuery("from BlogPostLikes where blogPost.id=? and user.username=? ");
 			System.out.println("BlogPost id  " + blogPost.getId());
-			System.out.println("Username " + user.getUserName());
+			System.out.println("Username " + user.getUsername());
 			query.setInteger(0, blogPost.getId());
-			query.setString(1, user.getUserName());
+			query.setString(1, user.getUsername());
 			//blogPostlikes = null [glyphicon in black color] / 1 [glyphicon in blue color] object
 			BlogPostLikes blogPostLikes=(BlogPostLikes)query.uniqueResult();
 			System.out.println(blogPostLikes);
@@ -31,7 +31,7 @@ public class BlogPostLikesDaoImpl implements BlogPostLikesDao{
 			
 		}
 
-		public BlogPost updateLikes(BlogPost blogPost, User1 user) {
+		public BlogPost updateLikes(BlogPost blogPost, UserDetails user) {
 			Session session=sessionFactory.getCurrentSession();
 			BlogPostLikes blogPostLikes=userLikes(blogPost,user);
 			//insert and increment  / delete and decrement
@@ -55,3 +55,4 @@ public class BlogPostLikesDaoImpl implements BlogPostLikesDao{
 		
 		
 }
+*/

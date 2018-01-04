@@ -12,9 +12,9 @@ import com.niit.Dao.UserDao;
 import com.niit.configuration.DBConfiguartion;
 import com.niit.model.User1;
 
-@ComponentScan("com.niit.*")
+@ComponentScan("com.niit")
 
-@Ignore
+
 public class User1Test {
 
 static UserDao  userDao;
@@ -24,7 +24,7 @@ static UserDao  userDao;
 	{
 		AnnotationConfigApplicationContext context=new AnnotationConfigApplicationContext();
 		context.register(DBConfiguartion.class);
-		context.scan("com.niit.*");
+		context.scan("com.niit");
 		context.refresh();
 
 		userDao=(UserDao)context.getBean("userDao");

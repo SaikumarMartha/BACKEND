@@ -5,49 +5,57 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.niit.Dao.UserDao;
-import com.niit.model.User1;
+import com.niit.dao.UserDAO;
+import com.niit.model.UserDetails;
 @Service
 public class UserServiceImpl implements UserService{
 
 	@Autowired
-	private UserDao userDao;
-	
-	public boolean saveOrUpdate(User1 user1) {
-		return userDao.saveOrUpdate(user1);
+	UserDAO userDAO;
+
+	public boolean saveOrUpdate(UserDetails users) {
+
+		return userDAO.saveOrUpdate(users);
 	}
 
-	public User1 updateUser(User1 user1) {
-		return userDao.updateUser(user1);
-	}
-
-	public void delete(User1 user1) {
-		userDao.delete(user1);
+	public void delete(UserDetails user) {
+		userDAO.delete(user);
 		
 	}
 
-	public User1 getUser(String username) {
-		return userDao.getUser(username);
+	public UserDetails getUser(String username) {
+		return userDAO.getUser(username);
 	}
 
-	public User1 viewUser(int userid) {
-		return userDao.viewUser(userid);
+	public UserDetails viewUser(int userid) {
+		
+		return userDAO.viewUser(userid);
 	}
 
-	public List<User1> UserList() {
-		return userDao.UserList();
+	public List<UserDetails> UserList() {
+	
+		return userDAO.UserList();
 	}
 
-	public User1 login(User1 user1) {
-		return userDao.login(user1);
+	public UserDetails login(String username,String password) {
+		
+		return userDAO.login(username,password);
 	}
 
 	public boolean isUsernameValid(String username) {
-		return userDao.isUsernameValid(username);
+	
+		return userDAO.isUsernameValid(username);
 	}
 
 	public boolean isEmailValid(String email) {
-		return userDao.isEmailValid(email);
+	
+		return userDAO.isEmailValid(email);
 	}
+
+	public UserDetails updateUser(UserDetails users) {
+
+		return userDAO.updateUser(users);
+	}
+
 
 }

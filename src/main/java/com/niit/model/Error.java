@@ -1,8 +1,16 @@
 package com.niit.model;
 
-public class ErrorClazz {
-	private int code;
+public class Error {
+	private int code; 
 	private String message;
+	
+	public Error(int code,String message)
+	{
+		super();
+		this.code=code;
+		this.message=message;
+
+	}
 	public int getCode() {
 		return code;
 	}
@@ -15,9 +23,5 @@ public class ErrorClazz {
 	public void setMessage(String message) {
 		this.message = message;
 	}
-	public ErrorClazz(int code, String message) {
-		super();
-		this.code = code;
-		this.message = message;
-	}
+	
 }

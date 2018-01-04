@@ -1,4 +1,4 @@
-package com.niit.model;
+/*package com.niit.model;
 
 
 import javax.persistence.Entity;
@@ -19,7 +19,7 @@ private int id;
 @ManyToOne
 private BlogPost blogPost;
 @ManyToOne
-private User1 user;
+private UserDetails user;
 public int getId() {
 	return id;
 }
@@ -32,10 +32,11 @@ public BlogPost getBlogPost() {
 public void setBlogPost(BlogPost blogPost) {
 	this.blogPost = blogPost;
 }
-public User1 getUser() {
+public UserDetails getUser() {
 	return user;
 }
-public void setUser(User1 user) {
+public void setUser(UserDetails user) {
 	this.user = user;
 }
 }
+*/
