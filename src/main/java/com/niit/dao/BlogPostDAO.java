@@ -1,4 +1,4 @@
-/*package com.niit.dao;
+package com.niit.dao;
 import java.util.List;
 
 import com.niit.model.BlogComment;
@@ -13,4 +13,3 @@ public interface BlogPostDAO {
 	void updateBlogPost(BlogPost blogPost,String rejectionReason);
 	void addComment(BlogComment blogComment);
 }
-*/

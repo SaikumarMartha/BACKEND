@@ -1,4 +1,4 @@
-/*package com.niit.model;
+package com.niit.model;
 
 
 import javax.persistence.Entity;
@@ -39,4 +39,3 @@ public void setUser(UserDetails user) {
 	this.user = user;
 }
 }
-*/

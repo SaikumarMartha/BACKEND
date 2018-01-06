@@ -1,21 +1,23 @@
-/*package com.niit.dao;
-import javax.transaction.Transactional;
+package com.niit.dao;
+
 
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.niit.model.BlogPost;
 import com.niit.model.BlogPostLikes;
 import com.niit.model.UserDetails;
 @Repository
-@Transactional
+
 public class BlogPostLikesDAOImpl implements BlogPostLikesDAO{
 
 	@Autowired
 	private SessionFactory sessionFactory;
+	@Transactional
 		public BlogPostLikes userLikes(BlogPost blogPost, UserDetails user) {
 			Session session=sessionFactory.getCurrentSession();
 			//select * from blogpostlikes_s180133 where blogpost_id=? and user_username=?
@@ -30,7 +32,8 @@ public class BlogPostLikesDAOImpl implements BlogPostLikesDAO{
 			return blogPostLikes;
 			
 		}
-
+	
+	@Transactional
 		public BlogPost updateLikes(BlogPost blogPost, UserDetails user) {
 			Session session=sessionFactory.getCurrentSession();
 			BlogPostLikes blogPostLikes=userLikes(blogPost,user);
@@ -55,4 +58,3 @@ public class BlogPostLikesDAOImpl implements BlogPostLikesDAO{
 		
 		
 }
-*/

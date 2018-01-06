@@ -47,7 +47,7 @@ public class UserDAOImpl implements UserDAO{
 	}
 		@SuppressWarnings("deprecation")
 		@Transactional
-		public UserDetails getUser(String username) {
+		public UserDetails getUserByUsername(String username) {
 		Criteria c=sessionFactory.getCurrentSession().createCriteria(UserDetails.class);
 		c.add(Restrictions.eq("username", username));
 		UserDetails user=(UserDetails)c.uniqueResult();
@@ -116,8 +116,12 @@ public class UserDAOImpl implements UserDAO{
 		return true;// valid user
 	}
 
+	@Transactional
 	public UserDetails updateUser(UserDetails validUser)
+	
+	
 	{
+		System.out.println("UserDAOImpl"+validUser.getOnline());
 		Session session=sessionFactory.openSession();
 		Transaction tx=session.beginTransaction();
 		session.update(validUser);

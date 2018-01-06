@@ -1,4 +1,4 @@
-/*package com.niit.dao;
+package com.niit.dao;
 
 import com.niit.model.BlogPost;
 import com.niit.model.BlogPostLikes;
@@ -15,4 +15,3 @@ public interface BlogPostLikesDAO {
 	//insert into blogpostlikes / delete from blogpostlikes 
 	BlogPost updateLikes(BlogPost blogPost, UserDetails user);
 }
-*/

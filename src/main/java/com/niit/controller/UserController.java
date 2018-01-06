@@ -51,16 +51,16 @@ public class UserController {
 	public ResponseEntity<?> login(@RequestBody UserDetails validUser,HttpSession session){
 	
 		
-		UserDetails u =userService.getUser(validUser.getUsername());
+		UserDetails u =userService.getUserByUsername(validUser.getUsername());
 		
 		System.out.println(u.getUsername());
 		
 		
       validUser=userService.login(u.getUsername(),u.getPassword());
       System.out.println((validUser));
-	  /* // System.out.println(users);
+
 	   System.out.println(validUser.getUsername());
-	    System.out.println("Password = "+users.getPassword());*/
+	    System.out.println("Password = "+validUser.getPassword());
 		
 	    if(validUser==null)
 
@@ -71,8 +71,8 @@ public class UserController {
 	    else	
 	    {
 	        validUser.setOnline(true);
-		    validUser=userService.updateUser(u);
-		    session.setAttribute("validUser", u);
+		    validUser=userService.updateUser(validUser);
+		    session.setAttribute("validUser", validUser);
 		    return new ResponseEntity<UserDetails>(u,HttpStatus.OK);    
 		}
 	   

@@ -12,7 +12,9 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
 
-
+import com.niit.model.BlogPost;
+import com.niit.model.BlogPostLikes;
+import com.niit.model.Notification;
 import com.niit.model.UserDetails;
 
 
@@ -24,7 +26,7 @@ public class DBConfiguartion {
 				DriverManagerDataSource dataSource = new DriverManagerDataSource();
 				dataSource.setDriverClassName("oracle.jdbc.driver.OracleDriver");
 				dataSource.setUrl("jdbc:oracle:thin:@localhost:1521:XE");
-				dataSource.setUsername("prject2");
+				dataSource.setUsername("project");
 				dataSource.setPassword("123456");
 				System.out.println("Datasource");
 				return dataSource;
@@ -49,7 +51,9 @@ public class DBConfiguartion {
 				LocalSessionFactoryBuilder sessionBuilder = new LocalSessionFactoryBuilder(dataSource);
 				sessionBuilder.addProperties(getHibernateProperties());
 				sessionBuilder.addAnnotatedClass(UserDetails.class);
-				//sessionBuilder.addAnnotatedClass(BlogPost.class);
+				sessionBuilder.addAnnotatedClass(BlogPost.class);
+				sessionBuilder.addAnnotatedClass(BlogPostLikes.class);
+				sessionBuilder.addAnnotatedClass(Notification.class);
 				System.out.println("Session");
 				return sessionBuilder.buildSessionFactory();
 				

@@ -1,4 +1,4 @@
-/*package com.niit.dao;
+package com.niit.dao;
 
 import java.util.List;
 
@@ -7,6 +7,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.niit.model.BlogComment;
 import com.niit.model.BlogPost;
 import com.niit.model.Notification;
@@ -17,25 +19,25 @@ public class BlogPostDAOImpl implements BlogPostDAO{
 
 	@Autowired
 	private SessionFactory sessionFactory;
-
+@Transactional
 	public void saveBlogPost(BlogPost blogPost) {
 		Session session = sessionFactory.getCurrentSession();
 		session.save(blogPost);
 
 	}
-
+@Transactional
 	public List<BlogPost> getBlogs(int approved) {
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createQuery("from BlogPost where approved=" + approved);
 		return query.list();
 	}
-
+@Transactional
 	public BlogPost getBlogById(int id) {
 		Session session = sessionFactory.getCurrentSession();
 		BlogPost blogPost = (BlogPost) session.get(BlogPost.class, id);
 		return blogPost;
 	}
-
+@Transactional
 	public void updateBlogPost(BlogPost blogPost, String rejectionReason) {
 		Session session = sessionFactory.getCurrentSession();
 		Notification notification = new Notification();
@@ -64,11 +66,11 @@ public class BlogPostDAOImpl implements BlogPostDAO{
 
 		}
 	}
-
+@Transactional
 	public void addComment(BlogComment blogComment) {
         Session session=sessionFactory.getCurrentSession();
         session.save(blogComment);//insert into blogcomment_s180133 ...
 		
 	}
 
-}*/
+}

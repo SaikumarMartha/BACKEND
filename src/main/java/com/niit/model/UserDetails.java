@@ -3,7 +3,7 @@ package com.niit.model;
 
 
 import java.io.Serializable;
-import java.util.Date;
+
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,10 +32,7 @@ public class UserDetails implements Serializable{
 	private boolean online;
 	private boolean enabled;
 	private String mobile;
-	private Date dob;
 	private String address;
-	/*@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "usersdetails")*/
-    /*private List<BlogComment> blogcomment = new ArrayList<BlogComment>();*/
 	public int getId() {
 		return id;
 	}
@@ -84,13 +81,13 @@ public class UserDetails implements Serializable{
 	public void setRole(String role) {
 		this.role = role;
 	}
-	public boolean isOnline() {
+	public boolean getOnline() {
 		return online;
 	}
 	public void setOnline(boolean online) {
 		this.online = online;
 	}
-	public boolean isEnabled() {
+	public boolean getEnabled() {
 		return enabled;
 	}
 	public void setEnabled(boolean enabled) {
@@ -102,17 +99,12 @@ public class UserDetails implements Serializable{
 	public void setMobile(String mobile) {
 		this.mobile = mobile;
 	}
-	public Date getDob() {
-		return dob;
-	}
-	public void setDob(Date dob) {
-		this.dob = dob;
-	}
 	public String getAddress() {
 		return address;
 	}
 	public void setAddress(String address) {
 		this.address = address;
 	}
+
 	
 }

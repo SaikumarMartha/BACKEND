@@ -23,8 +23,8 @@ public class UserServiceImpl implements UserService{
 		
 	}
 
-	public UserDetails getUser(String username) {
-		return userDAO.getUser(username);
+	public UserDetails getUserByUsername(String username) {
+		return userDAO.getUserByUsername(username);
 	}
 
 	public UserDetails viewUser(int userid) {
