@@ -1,4 +1,4 @@
-/*package com.niit.dao;
+package com.niit.dao;
 
 import java.util.List;
 
@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -18,15 +19,21 @@ public class JobDAOImpl implements JobDAO{
 
 	
 	@Autowired
-	SessionFactory sessionFactory;
-	@Transactional
-	public void saveJob(Job job) {
-		Session session=sessionFactory.openSession();
-		session.save(job);
-		session.flush();
-		session.close();
+	private SessionFactory sessionFactory;
+public JobDAOImpl(SessionFactory sessionFactory) {
 		
+		this.sessionFactory=sessionFactory;
 	}
+	
+	public void saveJob(Job job) {
+		 Session session=sessionFactory.openSession();
+		 Transaction tx=session.beginTransaction();
+		 session.saveOrUpdate(job);
+		 tx.commit();
+		 
+		 return; 
+		}
+	
 	@Transactional
 	public List<Job> getAllJobs() {
 		Session session=sessionFactory.openSession();
@@ -35,6 +42,7 @@ public class JobDAOImpl implements JobDAO{
 		session.close();
 		return jobs;
 	}
+	
 	@Transactional
 	public Job getJobById(int id) {
 		 Session session=sessionFactory.openSession();
@@ -47,4 +55,3 @@ public class JobDAOImpl implements JobDAO{
 	
 
 }
-*/

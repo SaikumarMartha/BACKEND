@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @Table(name="Blogpost")
 public class BlogPost {
 
-	
+	 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 private int id;
@@ -27,8 +27,8 @@ private UserDetails postedBy;
 private Date postedOn;
 private boolean approved;
 private int likes;
-/*@OneToMany(mappedBy="blogPost",fetch=FetchType.EAGER)
-private List<BlogComment> blogComments;*/
+@OneToMany(mappedBy="blogPost",fetch=FetchType.EAGER)
+private List<BlogComment> blogComments;
 public int getId() {
 	return id;
 }
@@ -71,12 +71,12 @@ public int getLikes() {
 public void setLikes(int likes) {
 	this.likes = likes;
 }
-/*public List<BlogComment> getBlogComments() {
+public List<BlogComment> getBlogComments() {
 	return blogComments;
 }
 public void setBlogComments(List<BlogComment> blogComments) {
 	this.blogComments = blogComments;
-}*/
+}
 
 
 

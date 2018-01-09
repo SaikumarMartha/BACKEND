@@ -1,4 +1,4 @@
-/*package com.niit.dao;
+package com.niit.dao;
 
 import java.util.List;
 
@@ -11,4 +11,3 @@ public interface JobDAO {
 	List<Job> getAllJobs();
 	Job getJobById(int id);
 }
-*/

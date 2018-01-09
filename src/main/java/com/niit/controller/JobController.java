@@ -1,4 +1,4 @@
-/*package com.niit.controller;
+package com.niit.controller;
 
 import java.util.Date;
 import java.util.List;
@@ -28,15 +28,15 @@ public class JobController
 	@RequestMapping(value="/savejob", method=RequestMethod.POST)
 	public ResponseEntity<?> saveJob(@RequestBody Job job,HttpSession session)
 	{
-		UserDetails users=(UserDetails)session.getAttribute("user");
-		if(users==null)
+		UserDetails validUser=(UserDetails)session.getAttribute("validUser");
+		if(validUser==null)
 		{
 			Error error=new Error(3,"unAuthorized user");
 			return new ResponseEntity<Error>(error,HttpStatus.UNAUTHORIZED);
 		}
 		try
 		{
-			if(users.getRole().equals("Admin"))
+			if(validUser.getRole().equals("ADMIN"))
 			{
 				job.setPostedOn(new Date());
 				jobDAO.saveJob(job);
@@ -58,8 +58,8 @@ public class JobController
 	@RequestMapping(value="/getalljobs",method=RequestMethod.GET)
 	public ResponseEntity<?> getAllJobs(HttpSession session)
 	{
-		UserDetails users =(UserDetails)session.getAttribute("user");
-		if(users==null)
+		UserDetails validUser =(UserDetails)session.getAttribute("validUser");
+		if(validUser==null)
 		{
 			Error error=new Error(3,"UnAuthorized user");
 			return new ResponseEntity<Error>(error,HttpStatus.UNAUTHORIZED);
@@ -71,8 +71,8 @@ public class JobController
 
 @RequestMapping(value="/getjobbyid/{id}",method=RequestMethod.GET)
 public ResponseEntity<?> getJobById(@PathVariable int id,HttpSession session){
-    UserDetails users=(UserDetails)session.getAttribute("user");
-    if(users==null){
+    UserDetails validUser=(UserDetails)session.getAttribute("validUser");
+    if(validUser==null){
          Error error=new Error(3,"UnAuthorized user");
             return new ResponseEntity<Error>(error,HttpStatus.UNAUTHORIZED);
     }
@@ -80,4 +80,4 @@ public ResponseEntity<?> getJobById(@PathVariable int id,HttpSession session){
     return new ResponseEntity<Job>(job,HttpStatus.OK);
 }
 }
-	*/
+	

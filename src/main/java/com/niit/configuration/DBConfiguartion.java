@@ -12,8 +12,10 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
 
+import com.niit.model.BlogComment;
 import com.niit.model.BlogPost;
 import com.niit.model.BlogPostLikes;
+import com.niit.model.Job;
 import com.niit.model.Notification;
 import com.niit.model.UserDetails;
 
@@ -51,6 +53,8 @@ public class DBConfiguartion {
 				LocalSessionFactoryBuilder sessionBuilder = new LocalSessionFactoryBuilder(dataSource);
 				sessionBuilder.addProperties(getHibernateProperties());
 				sessionBuilder.addAnnotatedClass(UserDetails.class);
+				sessionBuilder.addAnnotatedClass(Job.class);
+				sessionBuilder.addAnnotatedClass(BlogComment.class);
 				sessionBuilder.addAnnotatedClass(BlogPost.class);
 				sessionBuilder.addAnnotatedClass(BlogPostLikes.class);
 				sessionBuilder.addAnnotatedClass(Notification.class);
