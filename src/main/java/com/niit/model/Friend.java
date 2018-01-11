@@ -1,4 +1,4 @@
-/*package com.niit.model;
+package com.niit.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -40,4 +40,3 @@ public class Friend {
 		this.status = status;
 	}
 }
-*/

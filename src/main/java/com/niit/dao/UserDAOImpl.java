@@ -116,7 +116,7 @@ public class UserDAOImpl implements UserDAO{
 		return true;// valid user
 	}
 
-	@Transactional
+@Transactional
 	public UserDetails updateUser(UserDetails validUser)
 	
 	

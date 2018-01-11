@@ -15,7 +15,7 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
 import com.niit.model.BlogComment;
 import com.niit.model.BlogPost;
 import com.niit.model.BlogPostLikes;
-
+import com.niit.model.Friend;
 import com.niit.model.Job;
 import com.niit.model.Notification;
 import com.niit.model.ProfilePicture;
@@ -60,7 +60,7 @@ public class DBConfiguartion {
 				sessionBuilder.addAnnotatedClass(BlogPost.class);
 				sessionBuilder.addAnnotatedClass(BlogPostLikes.class);
 				sessionBuilder.addAnnotatedClass(Notification.class);
-				//sessionBuilder.addAnnotatedClass(Friend.class);
+				sessionBuilder.addAnnotatedClass(Friend.class);
 				sessionBuilder.addAnnotatedClass(ProfilePicture.class);
 				System.out.println("Session");
 				return sessionBuilder.buildSessionFactory();
